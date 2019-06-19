@@ -36,7 +36,7 @@ if serial:
             - a :meth:`readall` method
             - auto-appended termination characters
             - in/out logging.
-        
+
         To log whatever's written or read to a serial port,
         pass a filename into the ``log`` kwarg:
 
@@ -119,10 +119,10 @@ if serial:
 # up to this point, this file has dealt with customizing
 # communication interfaces (GPIB / RS232). What follows
 # are more random (though useful) utilities.
-# 
+#
 # The two halves of this file serve rather disparate
 # needs, and should probably be broken in two pieces.
-# Before I actually do that I'd like to trim down 
+# Before I actually do that I'd like to trim down
 # dependencies in the rest of the library - I think that
 # will go a long way in reducing complexity.
 # ------------------------------------------------------
@@ -188,12 +188,12 @@ if leastsq is not None:
             """perform the fit routine and return parameters"""
             diff = lambda p, x, y: y - self.func(p, x)
             args = (self.keys(), self.values())
-            
+
             result, win = leastsq(diff, self.param, args)
             if win:
                 self.param = result
             else:
-                print "fail!!"
+                print ("fail!!")
 
         def plot(self):
             """ plot the calibration points and the fit"""
@@ -210,7 +210,7 @@ if leastsq is not None:
             return self.func(self.param, arg)
 
         def save(self, filename):
-            """ 
+            """
             save the current calibration data to csv file. pass filename as arg.
 
             >>> cal.save('18oct.csv')
@@ -251,7 +251,7 @@ if leastsq is not None:
         if win:
             return pfit
         else:
-            print "fail!"
+            print ("fail!")
 
 def gaussian(p, x):
     """
@@ -265,7 +265,7 @@ def gaussian(p, x):
         3 -- the standard deviation
 
     """
-    
+
     return p[0] + \
     exp(-((x - p[2])**2)/(2 * p[3]**2)) * \
     p[1]  /  (sqrt(2 * pi) * p[3])
@@ -328,7 +328,7 @@ def scanner(xvals, set, get, lag = 0.3):
     >>> gen = scanner(wls, set=(tr,'wl'), get=(li,'x'))
 
     Avoid this if you can, though.
-    
+
     """
     for X in xvals:
         if hasattr(set,'__call__'):
@@ -432,7 +432,7 @@ class saver(object):
         save(fname, array)
         self.n +=1
         if self.verbose:
-            print "saved as", fname
+            print ("saved as", fname)
 
 from contextlib import contextmanager
 

@@ -92,7 +92,7 @@ class spex750m(object):
         try:
             self.init_hardware()    # try to initialize hardware.
         except InstrumentError as err:
-            print "%s, rebooting once..." % err
+            print ("%s, rebooting once..." % err)
             self.reboot()           # in case of trouble, reboot
             self.init_hardware()    # and try again.
 

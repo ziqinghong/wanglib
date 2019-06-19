@@ -39,7 +39,7 @@ def zebra(arg):
     """
     return numpy.around(numpy.remainder(arg,1.0))
 
-options = { 
+options = {
     # a registry of grating function types
     "Sawtooth": sawtooth,
     "Sine Wave": sinewave,
@@ -49,7 +49,7 @@ options = {
 class grating:
     """
     This class defines an object which acts as a
-    function to produce a grating from an array of 
+    function to produce a grating from an array of
     pixel numbers (and optionally phase offsets).
 
     """
@@ -59,19 +59,19 @@ class grating:
 
     variableSpacing = False
     # matters only when spacing is given as array
-    # True (False) means spacing will be varied 
+    # True (False) means spacing will be varied
     # parallel (perpendicular) to the grating axis
     # if spacing is a scalar, it is not varied
 
     variablePhase = False
     # matters only when phase is given as array
-    # True (False) means phase will be varied 
+    # True (False) means phase will be varied
     # parallel (perpendicular) to the grating axis
     # if phase is a scalar, it is not varied
 
     def __call__(self, coordinate, phase = 0.0):
         # phase is a(n array of) phase shifts
-    
+
         # first find the unshifted argument
         if not self.variableSpacing:
             findarg = numpy.true_divide.outer
@@ -85,7 +85,7 @@ class grating:
         else:
             addshift = numpy.add
         arg = addshift(arg,phase)
-        
+
         # evaluate the function
         return options[self.kind](arg)
 
@@ -96,11 +96,11 @@ def scale(value, factor, baseline=0):
     about a baseline value (or array of baselines)
 
     """
-    return factor * (value - baseline) + baseline 
+    return factor * (value - baseline) + baseline
 
 def maprange(value, targetrange):
     """
-    map an array or value from [0,1] 
+    map an array or value from [0,1]
     to targetrange = [top,bottom]
     (usually [0,255])
 
@@ -122,7 +122,7 @@ class pattern(object):
     as well as __init__ or whatever.
 
     Parameters for the pattern should be attributes.
-    
+
     Standard attributes:
         image -- a PIL representation of the array, in grayscale.
         png -- the PNG file representation of the image.
@@ -133,7 +133,7 @@ class pattern(object):
     Display-server compatibility:
         setproxy -- set the server proxy to display
                     these images at
-        senddata -- send the current image data to the 
+        senddata -- send the current image data to the
                     display server
 
     """
@@ -146,7 +146,7 @@ class pattern(object):
                     of the pattern. Default is (1890, 1020)
                     (about the largest that can be displayed on
                     a 1920x1080 monitor, with menu bars etc (on XFCE)
-            server -- a string containing the address of the 
+            server -- a string containing the address of the
                     display server where the pattern will
                     be displayed. Default: None.
 
@@ -179,7 +179,7 @@ class pattern(object):
         >>> pattern.setproxy("http://localhost:8000")
         >>> eg.proxy
         <ServerProxy for localhost:8000>
-        
+
         """
         if server_address is not None:
             self.proxy = xmlrpclib.ServerProxy(str(server_address))
@@ -234,7 +234,7 @@ class pattern(object):
             try:
                 self.proxy.setImageData(data)
             except xmlrpclib.ProtocolError:
-                print 'error talking to display server, retrying once'
+                print ('error talking to display server, retrying once')
                 self.proxy.setImageData(data)
         elif throw:
             raise InstrumentError("No display server defined")
@@ -242,9 +242,9 @@ class pattern(object):
 class deflector(pattern):
     """
     A grating, which can be rotated to deflect in a desired direction.
-    
-    pass as keyword argument when instantiating: 
-        dim --  the dimension of the pattern 
+
+    pass as keyword argument when instantiating:
+        dim --  the dimension of the pattern
 
     Parameters are attributes:
         kind -- the type of grating: 'Sawtooth' etc. all types

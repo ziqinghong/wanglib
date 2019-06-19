@@ -65,7 +65,7 @@ class velocity6300(object):
         self.bus = bus
         # establish RS232 vs. GPIB by testing for 'isatty' method
         self.is_serial = hasattr(bus, 'isatty')
-        print self.bus.ask('*IDN?')
+        print (self.bus.ask('*IDN?'))
 
     def stop_tracking(self):
         """ exit track mode to ready mode. """
