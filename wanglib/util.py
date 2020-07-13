@@ -22,6 +22,7 @@ def show_newlines(string):
     useful for debugging.
 
     """
+    string = str(string)
     return string.replace('\r', '<CR>').replace('\n', '<LF>')
 
 if serial:
@@ -78,7 +79,7 @@ if serial:
 
         def write(self, data):
             data += self.term_chars
-            super(Serial, self).write(data)
+            super(Serial, self).write(data.encode())
             self.logger.debug('write: ' + show_newlines(data))
 
         def read(self, size=1):
@@ -98,7 +99,7 @@ if serial:
             resp = self.read(self.inWaiting())
             if term_chars is None:
                 term_chars = self.term_chars
-            if term_chars is not '':
+            if term_chars != '':
                 while resp[-len(term_chars):] != term_chars:
                     resp += self.read(self.inWaiting())
             return resp
@@ -161,7 +162,7 @@ except ImportError:
 
 import csv
 
-if leastsq is not None:
+if leastsq != None:
     class calibration(dict):
         """
         a class encapsulating a linear mapping based on measurements.
